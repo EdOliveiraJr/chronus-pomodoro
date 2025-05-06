@@ -26,4 +26,5 @@
 
 .menuLink:hover {
   filter: brightness(70%);
+  cursor: pointer;
 }
