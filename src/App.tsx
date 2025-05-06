@@ -10,6 +10,7 @@ import { PlayCircleIcon, StopCircleIcon } from 'lucide-react';
 
 import './styles/theme.css';
 import './styles/global.css';
+import { Footer } from './components/Footer';
 
 export function App() {
   return (
@@ -55,7 +56,7 @@ export function App() {
       </Container>
 
       <Container>
-        <p>Footer</p>
+        <Footer/>
       </Container>
     </>
   );
