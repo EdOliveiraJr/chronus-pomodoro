@@ -1,4 +1,4 @@
-# chronus
+# Chronus Pomodoro
 A web application created to study React.
 
 # React + TypeScript + Vite
