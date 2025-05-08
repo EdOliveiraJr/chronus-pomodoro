@@ -1,10 +1,13 @@
 // import { useState } from "react";
 import { useRef } from "react";
+
 import { Cycles } from "../Cycles";
 import { DefaultButton } from "../DefaultButton";
 import { DefaultInput } from "../DefaultInput";
+import { Tips } from "../Tips";
 
 import { PlayCircleIcon, StopCircleIcon } from "lucide-react";
+
 import { TaskModel } from "../../models/TaskModel";
 import { useTaskContext } from "../../contexts/TaskContext/useTaskContext";
 import { TaskActionTypes } from "../../contexts/TaskContext/taskActions";
@@ -43,7 +46,6 @@ export function MainForm() {
     
   };
 
-
   function handleInterruptTask() {
     dispatch({ type: TaskActionTypes.INTERRUPT_TASK });
   };
@@ -62,9 +64,7 @@ export function MainForm() {
       </div>
 
       <div className="formRow">
-        <p>
-          Próximo intervalo é de 25 minutos.
-        </p>
+        <Tips/>
       </div>    
       
       {state.currentCycle > 0 && (
