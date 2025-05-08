@@ -6,7 +6,7 @@ import { DefaultButton } from "../DefaultButton";
 import { DefaultInput } from "../DefaultInput";
 import { Tips } from "../Tips";
 
-import { PlayCircleIcon, StopCircleIcon } from "lucide-react";
+import { PlayCircleIcon, StopCircleIcon, Timer } from "lucide-react";
 
 import { TaskModel } from "../../models/TaskModel";
 import { useTaskContext } from "../../contexts/TaskContext/useTaskContext";
@@ -43,7 +43,7 @@ export function MainForm() {
     };
 
     dispatch({ type: TaskActionTypes.START_TASK, payload: newTask });
-    
+
   };
 
   function handleInterruptTask() {
