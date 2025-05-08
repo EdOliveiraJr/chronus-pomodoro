@@ -58,6 +58,19 @@ export function MainForm() {
 
   };
 
+  function handleInterruptTask() {
+    // e.preventDefault();
+    
+    setState(prevState => {
+      return {
+        ...prevState,
+        activeTask: null,
+        secondsRemaining: 0,
+        formattedSecondsRemaining: '00:00',
+      };
+    })
+  };
+
   return(
     <form onSubmit={handleCreateNewTask} action="" className="form">
       <div className="formRow">
@@ -69,6 +82,7 @@ export function MainForm() {
           // value={taskName}
           // onChange={(event) => setTaskName(event.target.value)}
           ref={taskName}
+          disabled={!!state.activeTask}
         />
       </div>
 
@@ -84,9 +98,48 @@ export function MainForm() {
         </div>    
       )}
       
+      {/* <div className="formRow">
+        {!state.activeTask ? (
+          <DefaultButton 
+            aria-label="Iniciar nova tarefa"
+            icon={<PlayCircleIcon/>} 
+            title="Iniciar nova tarefa"
+            type="submit"
+          />
+        ) : (
+          <DefaultButton 
+            aria-label="Interromper tarefa atual"
+            color="red"
+            icon={<StopCircleIcon/>} 
+            title="Interromper tarefa atual"
+            type="button"
+            onClick={handleInterruptTask}
+          />
+        )}
+      </div>     */}
+
       <div className="formRow">
-        <DefaultButton icon={<PlayCircleIcon/>} />
-        <DefaultButton icon={<StopCircleIcon/>} color='red' />
+        {!state.activeTask && (
+          <DefaultButton 
+            aria-label="Iniciar nova tarefa"
+            key='startButton'
+            icon={<PlayCircleIcon/>} 
+            title="Iniciar nova tarefa"
+            type="submit"
+          />
+        )}
+        
+        {!!state.activeTask &&(
+          <DefaultButton 
+            aria-label="Interromper tarefa atual"
+            color="red"
+            key='stopButton'
+            icon={<StopCircleIcon/>} 
+            title="Interromper tarefa atual"
+            type="button"
+            onClick={handleInterruptTask}
+          />
+        )}
       </div>    
     </form>
   );
