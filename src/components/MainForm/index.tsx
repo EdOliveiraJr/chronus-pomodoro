@@ -7,19 +7,16 @@ import { DefaultInput } from "../DefaultInput";
 import { PlayCircleIcon, StopCircleIcon } from "lucide-react";
 import { TaskModel } from "../../models/TaskModel";
 import { useTaskContext } from "../../contexts/TaskContext/useTaskContext";
+import { TaskActionTypes } from "../../contexts/TaskContext/taskActions";
 import { getNextCycle } from "../../utils/getNextCycle";
 import { getNextCycleType } from "../../utils/getNextCycleType";
-import { formatSecondsToMinutes } from "../../utils/formatSecondsToMinutes";
 
 export function MainForm() {
-  // const [taskName, setTaskName] = useState(''); 
+  const {state, dispatch} = useTaskContext();
   const taskName = useRef<HTMLInputElement>(null);
-  
-  const {state, setState} = useTaskContext();
 
-  const nextCycle = getNextCycle(state.currentCycle);  
-
-  const nextCycleType = getNextCycleType(nextCycle)
+  const nextCycle = getNextCycle(state.currentCycle);
+  const nextCycleType = getNextCycleType(nextCycle);
 
   function handleCreateNewTask(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -42,33 +39,13 @@ export function MainForm() {
       type: nextCycleType
     };
 
-    const secondsRemaining = newTask.duration * 60;
-
-    setState(prevState => {
-      return {
-        ...prevState,
-        activeTask: newTask,
-        currentCycle: nextCycle,
-        secondsRemaining,
-        formattedSecondsRemaining: formatSecondsToMinutes(secondsRemaining),
-        tasks: [...prevState.tasks, newTask],
-        config: {...prevState.config}
-      };
-    })
-
+    dispatch({ type: TaskActionTypes.START_TASK, payload: newTask });
+    
   };
 
+
   function handleInterruptTask() {
-    // e.preventDefault();
-    
-    setState(prevState => {
-      return {
-        ...prevState,
-        activeTask: null,
-        secondsRemaining: 0,
-        formattedSecondsRemaining: '00:00',
-      };
-    })
+    dispatch({ type: TaskActionTypes.INTERRUPT_TASK });
   };
 
   return(
@@ -79,8 +56,6 @@ export function MainForm() {
           id="meuInput"
           type="text"
           placeholder="Digite algo"
-          // value={taskName}
-          // onChange={(event) => setTaskName(event.target.value)}
           ref={taskName}
           disabled={!!state.activeTask}
         />
@@ -98,26 +73,6 @@ export function MainForm() {
         </div>    
       )}
       
-      {/* <div className="formRow">
-        {!state.activeTask ? (
-          <DefaultButton 
-            aria-label="Iniciar nova tarefa"
-            icon={<PlayCircleIcon/>} 
-            title="Iniciar nova tarefa"
-            type="submit"
-          />
-        ) : (
-          <DefaultButton 
-            aria-label="Interromper tarefa atual"
-            color="red"
-            icon={<StopCircleIcon/>} 
-            title="Interromper tarefa atual"
-            type="button"
-            onClick={handleInterruptTask}
-          />
-        )}
-      </div>     */}
-
       <div className="formRow">
         {!state.activeTask && (
           <DefaultButton 
