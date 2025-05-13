@@ -32,6 +32,30 @@ export function History() {
     }
   );
 
+  function handleSortTasks({field} : Pick<SortTasksOptions, 'field'>) {
+    const newDirection = sortTasksOptions.direction === 'asc' ? 'desc' : 'asc';
+    
+    setSortTasksOptions({
+      tasks: sortTasks({
+        direction: newDirection,
+        tasks: sortTasksOptions.tasks,
+        field,
+      }),
+      direction: newDirection,
+      field,
+    });
+  };
+  
+  function handleResetHistory() {
+    showMessage.dismiss();
+    showMessage.confirm(
+      'Tem certeza que deseja apagar o histórico?',
+      confirmation => {
+        setConfirmClearHistory(confirmation)
+      }   
+    )
+  };
+  
   useEffect(() => {
     setSortTasksOptions(prevState => ({
       ...prevState,
@@ -49,30 +73,13 @@ export function History() {
 
     dispatch({ type: TaskActionTypes.RESET_STATE });
   }, [confirmClearHistory, dispatch])
-
-  function handleSortTasks({field} : Pick<SortTasksOptions, 'field'>) {
-    const newDirection = sortTasksOptions.direction === 'asc' ? 'desc' : 'asc';
   
-    setSortTasksOptions({
-      tasks: sortTasks({
-        direction: newDirection,
-        tasks: sortTasksOptions.tasks,
-        field,
-      }),
-      direction: newDirection,
-      field,
-    });
-  };
+  useEffect(() => {
+    return () => {
+      showMessage.dismiss();
+    }
+  }, []);
 
-  function handleResetHistory() {
-    showMessage.dismiss();
-    showMessage.confirm(
-      'Tem certeza que deseja apagar o histórico?',
-      confirmation => {
-        setConfirmClearHistory(confirmation)
-      }   
-    )
-  };
 
   return (
     <MainTemplate>
